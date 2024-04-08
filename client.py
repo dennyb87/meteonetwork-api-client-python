@@ -7,7 +7,7 @@ class HttpMethod(str, Enum):
     GET = "get"
 
 
-class MeteoNetworkV3Client:
+class MeteoNetworkClient:
     api_root = "https://api.meteonetwork.it/v3"
     
     class InvalidResponse(Exception):
