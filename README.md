@@ -8,6 +8,6 @@ client = MeteoNetworkClient.from_login(email="mylovely@email.com", password="my_
 
 Access token will be accessible via `client.access_token` such that subesquent instantiations can be performed with:
 ```
-client = MeteoNetworkV3Client(access_token=token)
+client = MeteoNetworkClient(access_token=token)
 client.real_time(station_code="tsc069")
 ```
