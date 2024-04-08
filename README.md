@@ -1,5 +1,5 @@
 # meteonetwork-api-client-python
-Simple python client for meteonetwork api.  
+Simple python client for [meteonetwork.it](https://www.meteonetwork.it/supporto/meteonetwork-api/) api (see [api documentation](https://api.meteonetwork.it/documentation.html)).  
 
 ### Bootstrap with credentials
 ```
