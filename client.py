@@ -26,7 +26,7 @@ class MeteoNetworkClient:
         return response.json()
 
     @classmethod
-    def from_login(cls, email: str, password: str) -> "MeteoNetworkV3Client":
+    def from_credentials(cls, email: str, password: str) -> "MeteoNetworkV3Client":
         login_endpoint = f"{cls.api_root}/login"
         data = {"email": email, "password": password}
         json_data = cls._request(url=login_endpoint, method=HttpMethod.POST, data=data)
