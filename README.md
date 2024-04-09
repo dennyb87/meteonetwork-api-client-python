@@ -3,7 +3,10 @@ Simple python client for [meteonetwork.it](https://www.meteonetwork.it/supporto/
 
 ### Bootstrap with credentials
 ```
-client = MeteoNetworkClient.from_credentials(email="mylovely@email.com", password="my_lovely_password")
+client = MeteoNetworkClient.from_credentials(
+    email="mylovely@email.com",
+    password="my_lovely_password",
+)
 ```
 
 Access token will be accessible via `client.access_token` such that subesquent instantiations can be performed with:
