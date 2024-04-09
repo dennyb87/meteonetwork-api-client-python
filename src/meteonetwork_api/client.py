@@ -1,5 +1,6 @@
-import requests
 from enum import Enum
+
+import requests
 
 
 class HttpMethod(str, Enum):

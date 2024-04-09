@@ -1,8 +1,10 @@
-from copy import deepcopy
 import json
 import unittest
+from copy import deepcopy
+
 import responses
-from client import MeteoNetworkClient
+
+from src.meteonetwork_api.client import MeteoNetworkClient
 from tests.sample_responses import DATA_REALTIME
 
 
