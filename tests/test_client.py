@@ -12,7 +12,14 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.dummy_station = "dummy_station"
         self.token = "32166|e211RHqWVAWc6CudMlf6dQuyyGTWf1S6tUYyOLyb"
-        self.successful_token_response = json.dumps({"status_code": 200, "access_token": self.token, "token_type": "Bearer", "message": "The token will never expires. Save it because you can generate a new one in 1 hour."})
+        self.successful_token_response = json.dumps(
+            {
+                "status_code": 200,
+                "access_token": self.token,
+                "token_type": "Bearer",
+                "message": "The token will never expires. Save it because you can generate a new one in 1 hour.",
+            }
+        )
         self.data_realtime = deepcopy(DATA_REALTIME)
         self.successful_data_realtime_response = json.dumps(self.data_realtime)
 
@@ -24,7 +31,9 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
                 body=self.successful_token_response,
                 status=200,
             )
-            client = MeteoNetworkClient.from_credentials(email="dummy@email.com", password="dummy_password")
+            client = MeteoNetworkClient.from_credentials(
+                email="dummy@email.com", password="dummy_password"
+            )
 
         self.assertIsInstance(client, MeteoNetworkClient)
         self.assertEqual(client.access_token, self.token)
@@ -41,7 +50,7 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             data = client.real_time(station_code=self.dummy_station)
 
         self.assertEqual(data, self.data_realtime)
- 
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

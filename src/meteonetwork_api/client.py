@@ -10,7 +10,7 @@ class HttpMethod(str, Enum):
 
 class MeteoNetworkClient:
     api_root = "https://api.meteonetwork.it/v3"
-    
+
     class InvalidResponse(Exception):
         pass
 
@@ -35,4 +35,6 @@ class MeteoNetworkClient:
 
     def real_time(self, station_code: str) -> dict:
         real_time_endpoint = f"{self.api_root}/data-realtime/{station_code}/"
-        return self._request(url=real_time_endpoint, method=HttpMethod.GET, headers=self.headers)
+        return self._request(
+            url=real_time_endpoint, method=HttpMethod.GET, headers=self.headers
+        )
