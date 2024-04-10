@@ -51,6 +51,17 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
 
         self.assertEqual(data, self.data_realtime)
 
+    def test_response_not_okay(self):
+        client = MeteoNetworkClient(access_token=self.token)
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            rsps.add(
+                responses.GET,
+                f"{MeteoNetworkClient.api_root}/data-realtime/{self.dummy_station}/",
+                status=500,
+            )
+            with self.assertRaises(MeteoNetworkClient.InvalidResponse):
+                client.real_time(station_code=self.dummy_station)
+
 
 if __name__ == "__main__":
     unittest.main()
