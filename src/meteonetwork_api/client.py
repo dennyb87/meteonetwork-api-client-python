@@ -28,13 +28,15 @@ class MeteoNetworkClient:
 
     @classmethod
     def from_credentials(cls, email: str, password: str) -> "MeteoNetworkV3Client":
-        login_endpoint = f"{cls.api_root}/login"
+        endpoint = f"{cls.api_root}/login"
         data = {"email": email, "password": password}
-        json_data = cls._request(url=login_endpoint, method=HttpMethod.POST, data=data)
+        json_data = cls._request(url=endpoint, method=HttpMethod.POST, data=data)
         return cls(access_token=json_data["access_token"])
 
-    def real_time(self, station_code: str) -> dict:
-        real_time_endpoint = f"{self.api_root}/data-realtime/{station_code}/"
-        return self._request(
-            url=real_time_endpoint, method=HttpMethod.GET, headers=self.headers
-        )
+    def real_time_data(self, station_code: str) -> dict:
+        endpoint = f"{self.api_root}/data-realtime/{station_code}/"
+        return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)
+
+    def daily_data(self, station_code: str, observation_date: str) -> dict:
+        endpoint = f"{self.api_root}/data-daily/{station_code}/"
+        return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)

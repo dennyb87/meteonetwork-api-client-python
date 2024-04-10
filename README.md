@@ -15,5 +15,5 @@ client = MeteoNetworkClient.from_credentials(
 Access token will be accessible via `client.access_token` such that subesquent instantiations can be performed with:
 ```
 client = MeteoNetworkClient(access_token=token)
-client.real_time(station_code="tsc069")
+client.real_time_data(station_code="tsc069")
 ```

@@ -5,7 +5,7 @@ from copy import deepcopy
 import responses
 
 from src.meteonetwork_api.client import MeteoNetworkClient
-from tests.sample_responses import DATA_REALTIME
+from tests.sample_responses import DAILY_DATA, REAL_TIME_DATA
 
 
 class MeteoNetworkClientTestCase(unittest.TestCase):
@@ -20,8 +20,10 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
                 "message": "The token will never expires. Save it because you can generate a new one in 1 hour.",
             }
         )
-        self.data_realtime = deepcopy(DATA_REALTIME)
-        self.successful_data_realtime_response = json.dumps(self.data_realtime)
+        self.real_time_data = deepcopy(REAL_TIME_DATA)
+        self.daily_data = deepcopy(DAILY_DATA)
+        self.successful_real_time_data_response = json.dumps(self.real_time_data)
+        self.successful_daily_data_response = json.dumps(self.daily_data)
 
     def test_from_credentials_factory(self):
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
@@ -38,18 +40,18 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
         self.assertIsInstance(client, MeteoNetworkClient)
         self.assertEqual(client.access_token, self.token)
 
-    def test_real_time(self):
+    def test_real_time_data(self):
         client = MeteoNetworkClient(access_token=self.token)
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.GET,
                 f"{MeteoNetworkClient.api_root}/data-realtime/{self.dummy_station}/",
-                body=self.successful_data_realtime_response,
+                body=self.successful_real_time_data_response,
                 status=200,
             )
-            data = client.real_time(station_code=self.dummy_station)
+            data = client.real_time_data(station_code=self.dummy_station)
 
-        self.assertEqual(data, self.data_realtime)
+        self.assertEqual(data, self.real_time_data)
 
     def test_response_not_okay(self):
         client = MeteoNetworkClient(access_token=self.token)
@@ -60,4 +62,19 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
                 status=500,
             )
             with self.assertRaises(MeteoNetworkClient.InvalidResponse):
-                client.real_time(station_code=self.dummy_station)
+                client.real_time_data(station_code=self.dummy_station)
+
+    def test_daily_data(self):
+        client = MeteoNetworkClient(access_token=self.token)
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            rsps.add(
+                responses.GET,
+                f"{MeteoNetworkClient.api_root}/data-daily/{self.dummy_station}/",
+                body=self.successful_daily_data_response,
+                status=200,
+            )
+            data = client.daily_data(
+                station_code=self.dummy_station, observation_date="2024-04-10"
+            )
+
+        self.assertEqual(data, self.daily_data)
