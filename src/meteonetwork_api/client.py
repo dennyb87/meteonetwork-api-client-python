@@ -1,4 +1,5 @@
 from enum import Enum
+from urllib.parse import urlencode
 
 import requests
 
@@ -43,4 +44,9 @@ class MeteoNetworkClient:
 
     def station(self, station_code: str) -> dict:
         endpoint = f"{self.api_root}/stations/{station_code}/"
+        return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)
+
+    def interpolated_real_time_data(self, lat: str, lon: str) -> dict:
+        query = urlencode(dict(lat=lat, lon=lon))
+        endpoint = f"{self.api_root}/interpolated-realtime/?{query}"
         return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)

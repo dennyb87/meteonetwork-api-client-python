@@ -5,14 +5,19 @@ from copy import deepcopy
 import responses
 
 from src.meteonetwork_api.client import MeteoNetworkClient
-from tests.sample_responses import DAILY_DATA, REAL_TIME_DATA, STATION_DATA
+from tests.sample_responses import (
+    DAILY_DATA,
+    REAL_TIME_DATA,
+    STATION_DATA,
+    INTERPOLATED_REAL_TIME_DATA,
+)
 
 
 class MeteoNetworkClientTestCase(unittest.TestCase):
     def setUp(self) -> None:
         self.dummy_station = "dummy_station"
         self.token = "32166|e211RHqWVAWc6CudMlf6dQuyyGTWf1S6tUYyOLyb"
-        self.successful_token_response = json.dumps(
+        self.token_body = json.dumps(
             {
                 "status_code": 200,
                 "access_token": self.token,
@@ -23,16 +28,20 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
         self.real_time_data = deepcopy(REAL_TIME_DATA)
         self.daily_data = deepcopy(DAILY_DATA)
         self.station_data = deepcopy(STATION_DATA)
-        self.successful_real_time_data_response = json.dumps(self.real_time_data)
-        self.successful_daily_data_response = json.dumps(self.daily_data)
-        self.successful_station_response = json.dumps(self.station_data)
+        self.interpolated_real_time_data = deepcopy(INTERPOLATED_REAL_TIME_DATA)
+        self.real_time_data_body = json.dumps(self.real_time_data)
+        self.daily_data_body = json.dumps(self.daily_data)
+        self.station_body = json.dumps(self.station_data)
+        self.interpolated_real_time_data_body = json.dumps(
+            self.interpolated_real_time_data
+        )
 
     def test_from_credentials_factory(self):
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
                 f"{MeteoNetworkClient.api_root}/login",
-                body=self.successful_token_response,
+                body=self.token_body,
                 status=200,
             )
             client = MeteoNetworkClient.from_credentials(
@@ -48,7 +57,7 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             rsps.add(
                 responses.GET,
                 f"{MeteoNetworkClient.api_root}/data-realtime/{self.dummy_station}/",
-                body=self.successful_real_time_data_response,
+                body=self.real_time_data_body,
                 status=200,
             )
             data = client.real_time_data(station_code=self.dummy_station)
@@ -72,7 +81,7 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             rsps.add(
                 responses.GET,
                 f"{MeteoNetworkClient.api_root}/data-daily/{self.dummy_station}/",
-                body=self.successful_daily_data_response,
+                body=self.daily_data_body,
                 status=200,
             )
             data = client.daily_data(
@@ -87,9 +96,23 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             rsps.add(
                 responses.GET,
                 f"{MeteoNetworkClient.api_root}/stations/{self.dummy_station}/",
-                body=self.successful_station_response,
+                body=self.station_body,
                 status=200,
             )
             data = client.station(station_code=self.dummy_station)
 
         self.assertEqual(data, self.station_data)
+
+    def test_interpolated_real_time_data(self):
+        client = MeteoNetworkClient(access_token=self.token)
+        lat, lon = "45.5", "9.3"
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            rsps.add(
+                responses.GET,
+                f"{MeteoNetworkClient.api_root}/interpolated-realtime/?lat={lat}&lon={lon}",
+                body=self.interpolated_real_time_data_body,
+                status=200,
+            )
+            data = client.interpolated_real_time_data(lat=lat, lon=lon)
+
+        self.assertEqual(data, self.interpolated_real_time_data)

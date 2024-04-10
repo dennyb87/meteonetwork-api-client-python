@@ -108,3 +108,32 @@ STATION_DATA = [
         "subnets": [],
     }
 ]
+
+INTERPOLATED_REAL_TIME_DATA = {
+    "lat": "45.5125000007195",
+    "lon": "9.312499993800508",
+    "temperature": "11.0",
+    "rh": "79",
+    "dew_point": "7.1",
+    "daily_rain": "25.1",
+    "smlp": "1024.7",
+    "wind_direction": "179",
+    "wind_direction_cardinal": "S",
+    "wind_speed": "2.4",
+    "distance": "1.7",
+    "place": None,
+    "name": None,
+    "current_tmin": None,
+    "current_tmed": None,
+    "current_tmax": None,
+    "current_rhmin": None,
+    "current_rhmed": None,
+    "current_rhmax": None,
+    "current_wgustmax": None,
+    "current_wspeedmax": None,
+    "current_wspeedmed": None,
+    "current_uvmed": None,
+    "current_uvmax": None,
+    "current_radmed": None,
+    "current_radmax": None,
+}
