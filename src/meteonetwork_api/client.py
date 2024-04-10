@@ -40,3 +40,7 @@ class MeteoNetworkClient:
     def daily_data(self, station_code: str, observation_date: str) -> dict:
         endpoint = f"{self.api_root}/data-daily/{station_code}/"
         return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)
+
+    def station(self, station_code: str) -> dict:
+        endpoint = f"{self.api_root}/stations/{station_code}/"
+        return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)

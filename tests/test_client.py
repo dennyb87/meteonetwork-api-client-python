@@ -5,7 +5,7 @@ from copy import deepcopy
 import responses
 
 from src.meteonetwork_api.client import MeteoNetworkClient
-from tests.sample_responses import DAILY_DATA, REAL_TIME_DATA
+from tests.sample_responses import DAILY_DATA, REAL_TIME_DATA, STATION_DATA
 
 
 class MeteoNetworkClientTestCase(unittest.TestCase):
@@ -22,8 +22,10 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
         )
         self.real_time_data = deepcopy(REAL_TIME_DATA)
         self.daily_data = deepcopy(DAILY_DATA)
+        self.station_data = deepcopy(STATION_DATA)
         self.successful_real_time_data_response = json.dumps(self.real_time_data)
         self.successful_daily_data_response = json.dumps(self.daily_data)
+        self.successful_station_response = json.dumps(self.station_data)
 
     def test_from_credentials_factory(self):
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
@@ -78,3 +80,16 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             )
 
         self.assertEqual(data, self.daily_data)
+
+    def test_station(self):
+        client = MeteoNetworkClient(access_token=self.token)
+        with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+            rsps.add(
+                responses.GET,
+                f"{MeteoNetworkClient.api_root}/stations/{self.dummy_station}/",
+                body=self.successful_station_response,
+                status=200,
+            )
+            data = client.station(station_code=self.dummy_station)
+
+        self.assertEqual(data, self.station_data)

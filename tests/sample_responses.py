@@ -67,3 +67,44 @@ DAILY_DATA = [
         "uv_max": None,
     }
 ]
+
+STATION_DATA = [
+    {
+        "code": "tsc069",
+        "latitude": "43.8913485567997",
+        "longitude": "10.2376549254404",
+        "is_valid": "Y",
+        "insertion_date": "2010-09-30",
+        "area": "quartiere Marco Polo",
+        "name": "Viareggio - quartiere Marco Polo",
+        "place_name": "Viareggio",
+        "country": "IT",
+        "province": "LU",
+        "region_name": "Toscana",
+        "altitude": 10,
+        "strumentation": "Davis Vantage Vue",
+        "soil_height": 1000,
+        "shielding": "P",
+        "shielding_type": "S",
+        "shielding_tested": "N",
+        "tipology": "U",
+        "station_location": "R",
+        "buildings_distance": 0,
+        "solar_range_summer_begin": None,
+        "solar_range_summer_end": None,
+        "solar_range_winter_begin": None,
+        "solar_range_winter_end": None,
+        "webcam": "http://www.viareggiometeo.altervista.org/webcam.jpg",
+        "station_link": "http://www.viareggiometeo.it",
+        "software": "VIRTUAL WEATHER STATION V. 14.01",
+        "removal_date": None,
+        "time_zone_name": "Europe/Berlin",
+        "climate_zone": "TCd",
+        "images": [
+            "http://my.meteonetwork.it/asset/photo/_1285839060.26.jpg",
+            "http://my.meteonetwork.it/asset/photo/_1285839062.08.jpg",
+            "http://my.meteonetwork.it/asset/photo/_1289117374.86.jpg",
+        ],
+        "subnets": [],
+    }
+]
