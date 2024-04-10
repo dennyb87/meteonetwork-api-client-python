@@ -61,7 +61,3 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             )
             with self.assertRaises(MeteoNetworkClient.InvalidResponse):
                 client.real_time(station_code=self.dummy_station)
-
-
-if __name__ == "__main__":
-    unittest.main()
