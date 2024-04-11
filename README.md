@@ -7,6 +7,11 @@ Simple python client for [meteonetwork.it](https://www.meteonetwork.it/supporto/
 ### Basic usage  
 
 ```
+token = MeteoNetworkClient.fetch_token(
+    email="mylovely@email.com",
+    password="my_lovely_password",
+)
+
 client = MeteoNetworkClient(access_token=token)
 client.real_time_data(station_code="tsc069")
 ```
