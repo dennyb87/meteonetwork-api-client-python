@@ -1,6 +1,7 @@
 import json
 import unittest
 from copy import deepcopy
+from unittest import mock
 
 import responses
 
@@ -36,7 +37,7 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             self.interpolated_real_time_data
         )
 
-    def test_from_credentials_factory(self):
+    def test_fetch_token(self):
         with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
             rsps.add(
                 responses.POST,
@@ -44,10 +45,18 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
                 body=self.token_body,
                 status=200,
             )
-            client = MeteoNetworkClient.from_credentials(
+            token = MeteoNetworkClient.fetch_token(
                 email="dummy@email.com", password="dummy_password"
             )
 
+        self.assertEqual(token, self.token)
+
+    @mock.patch.object(MeteoNetworkClient, "fetch_token")
+    def test_from_credentials_factory(self, fetch_token_mock):
+        fetch_token_mock.return_value = self.token
+        client = MeteoNetworkClient.from_credentials(
+            email="dummy@email.com", password="dummy_password"
+        )
         self.assertIsInstance(client, MeteoNetworkClient)
         self.assertEqual(client.access_token, self.token)
 

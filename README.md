@@ -4,6 +4,14 @@
 
 Simple python client for [meteonetwork.it](https://www.meteonetwork.it/supporto/meteonetwork-api/) api (see [api documentation](https://api.meteonetwork.it/documentation.html)).  
 
+### Basic usage  
+
+```
+client = MeteoNetworkClient(access_token=token)
+client.real_time_data(station_code="tsc069")
+```
+
+
 ### Bootstrap with credentials
 ```
 client = MeteoNetworkClient.from_credentials(
@@ -12,8 +20,4 @@ client = MeteoNetworkClient.from_credentials(
 )
 ```
 
-Access token will be accessible via `client.access_token` such that subesquent instantiations can be performed with:
-```
-client = MeteoNetworkClient(access_token=token)
-client.real_time_data(station_code="tsc069")
-```
+Access token will be accessible via `client.access_token`

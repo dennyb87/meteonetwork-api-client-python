@@ -1,12 +1,8 @@
-from enum import Enum
 from urllib.parse import urlencode
 
 import requests
 
-
-class HttpMethod(str, Enum):
-    POST = "post"
-    GET = "get"
+from src.meteonetwork_api.constants import HttpMethod
 
 
 class MeteoNetworkClient:
@@ -15,7 +11,7 @@ class MeteoNetworkClient:
     class InvalidResponse(Exception):
         pass
 
-    def __init__(self, access_token: str) -> None:
+    def __init__(self, access_token) -> None:
         self.access_token = access_token
         self.headers = {"Authorization": f"Bearer {self.access_token}"}
 
@@ -28,11 +24,16 @@ class MeteoNetworkClient:
         return response.json()
 
     @classmethod
-    def from_credentials(cls, email: str, password: str) -> "MeteoNetworkV3Client":
+    def fetch_token(cls, email: str, password: str) -> str:
         endpoint = f"{cls.api_root}/login"
         data = {"email": email, "password": password}
         json_data = cls._request(url=endpoint, method=HttpMethod.POST, data=data)
-        return cls(access_token=json_data["access_token"])
+        return json_data["access_token"]
+
+    @classmethod
+    def from_credentials(cls, email: str, password: str) -> "MeteoNetworkV3Client":
+        access_token = cls.fetch_token(email=email, password=password)
+        return cls(access_token=access_token)
 
     def real_time_data(self, station_code: str) -> dict:
         endpoint = f"{self.api_root}/data-realtime/{station_code}/"
