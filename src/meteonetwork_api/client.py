@@ -26,11 +26,6 @@ class MeteoNetworkClient:
         json_data = cls._request(url=endpoint, method=HttpMethod.POST, data=data)
         return json_data["access_token"]
 
-    @classmethod
-    def from_credentials(cls, email: str, password: str) -> "MeteoNetworkV3Client":
-        access_token = cls.fetch_token(email=email, password=password)
-        return cls(access_token=access_token)
-
     def real_time_data(self, station_code: str) -> dict:
         endpoint = f"{self.api_root}/data-realtime/{station_code}/"
         return self._request(url=endpoint, method=HttpMethod.GET, headers=self.headers)

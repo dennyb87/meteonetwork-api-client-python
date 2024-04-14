@@ -1,7 +1,6 @@
 import json
 import unittest
 from copy import deepcopy
-from unittest import mock
 
 import responses
 from requests.exceptions import HTTPError
@@ -51,15 +50,6 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
             )
 
         self.assertEqual(token, self.token)
-
-    @mock.patch.object(MeteoNetworkClient, "fetch_token")
-    def test_from_credentials_factory(self, fetch_token_mock):
-        fetch_token_mock.return_value = self.token
-        client = MeteoNetworkClient.from_credentials(
-            email="dummy@email.com", password="dummy_password"
-        )
-        self.assertIsInstance(client, MeteoNetworkClient)
-        self.assertEqual(client.access_token, self.token)
 
     def test_real_time_data(self):
         client = MeteoNetworkClient(access_token=self.token)

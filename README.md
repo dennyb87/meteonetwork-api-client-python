@@ -15,14 +15,3 @@ token = MeteoNetworkClient.fetch_token(
 client = MeteoNetworkClient(access_token=token)
 client.real_time_data(station_code="tsc069")
 ```
-
-
-### Bootstrap with credentials
-```
-client = MeteoNetworkClient.from_credentials(
-    email="mylovely@email.com",
-    password="my_lovely_password",
-)
-```
-
-Access token will be accessible via `client.access_token`
