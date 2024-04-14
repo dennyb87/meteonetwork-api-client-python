@@ -4,13 +4,14 @@ from copy import deepcopy
 from unittest import mock
 
 import responses
+from requests.exceptions import HTTPError
 
 from src.meteonetwork_api.client import MeteoNetworkClient
 from tests.sample_responses import (
     DAILY_DATA,
+    INTERPOLATED_REAL_TIME_DATA,
     REAL_TIME_DATA,
     STATION_DATA,
-    INTERPOLATED_REAL_TIME_DATA,
 )
 
 
@@ -81,7 +82,7 @@ class MeteoNetworkClientTestCase(unittest.TestCase):
                 f"{MeteoNetworkClient.api_root}/data-realtime/{self.dummy_station}/",
                 status=500,
             )
-            with self.assertRaises(MeteoNetworkClient.InvalidResponse):
+            with self.assertRaises(HTTPError):
                 client.real_time_data(station_code=self.dummy_station)
 
     def test_daily_data(self):

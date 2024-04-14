@@ -8,9 +8,6 @@ from src.meteonetwork_api.constants import HttpMethod
 class MeteoNetworkClient:
     api_root = "https://api.meteonetwork.it/v3"
 
-    class InvalidResponse(Exception):
-        pass
-
     def __init__(self, access_token) -> None:
         self.access_token = access_token
         self.headers = {"Authorization": f"Bearer {self.access_token}"}
@@ -19,8 +16,7 @@ class MeteoNetworkClient:
     def _request(cls, url: str, method: HttpMethod, **kwargs) -> dict:
         request_method = getattr(requests, method)
         response = request_method(url=url, **kwargs)
-        if not response.ok:
-            raise cls.InvalidResponse(f"{response.status_code}: {response.content}")
+        response.raise_for_status()
         return response.json()
 
     @classmethod
