@@ -7,9 +7,7 @@ setup(
     author="Denny Baldini",
     author_email="dennybaldini@gmail.com",
     url="https://github.com/dennyb87/meteonetwork-api-client-python",
-    install_requires=[
-        "requests==2.31.0",
-    ],
+    setup_requires=["requests==2.31.0"],
     packages=["meteonetwork_api"],
     package_dir={"": "src"},
 )
