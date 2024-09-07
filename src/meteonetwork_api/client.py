@@ -2,7 +2,7 @@ from urllib.parse import urlencode
 
 import requests
 
-from src.meteonetwork_api.constants import HttpMethod
+from meteonetwork_api.constants import HttpMethod
 
 
 class MeteoNetworkClient:

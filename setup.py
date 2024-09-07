@@ -10,4 +10,6 @@ setup(
     install_requires=[
         "requests==2.31.0",
     ],
+    packages=["meteonetwork_api"],
+    package_dir={"": "src"},
 )

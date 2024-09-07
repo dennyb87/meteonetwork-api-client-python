@@ -5,7 +5,7 @@ from copy import deepcopy
 import responses
 from requests.exceptions import HTTPError
 
-from src.meteonetwork_api.client import MeteoNetworkClient
+from meteonetwork_api.client import MeteoNetworkClient
 from tests.sample_responses import (
     DAILY_DATA,
     INTERPOLATED_REAL_TIME_DATA,
